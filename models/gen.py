@@ -1,3 +1,4 @@
+import os
 from typing import List, Optional
 
 def get_query(init_date: str, lat: float, lon: float, variables: Optional[List[str]] = None) -> str:
@@ -26,7 +27,8 @@ def get_query(init_date: str, lat: float, lon: float, variables: Optional[List[s
         # Select only the specified variables
         select_clause = ",\n".join([f"{all_variables[v]} as {v}" for v in variables if v in all_variables])
 
-    table_id = "octo-aif-sandbox.weathernext_gen_forecasts.126478713_1_0"
+    project_id = os.getenv("GCP_PROJECT_ID")
+    table_id = f"{project_id}.weathernext_gen_forecasts.126478713_1_0"
     query = f"""
         SELECT
             {select_clause}
