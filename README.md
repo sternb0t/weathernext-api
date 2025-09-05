@@ -2,6 +2,10 @@
 
 This is a simple Python API to access WeatherNext forecasting datasets stored in BigQuery.
 
+
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/sternb0t/weathernext-api.git)
+
+
 ## Setup
 
 1.  **Install dependencies:**
