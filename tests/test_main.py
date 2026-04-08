@@ -1,10 +1,16 @@
 import pytest
 from fastapi.testclient import TestClient
-from main import app
+from main import app, _fetch_forecast
 import pandas as pd
 from unittest.mock import patch, MagicMock
 
 client = TestClient(app)
+
+@pytest.fixture(autouse=True)
+def clear_forecast_cache():
+    _fetch_forecast.cache_clear()
+    yield
+    _fetch_forecast.cache_clear()
 
 @pytest.fixture
 def mock_bigquery_client():

@@ -20,11 +20,12 @@ def get_query(init_date: str, lat: float, lon: float, variables: Optional[List[s
     }
 
     if not variables:
-        # Select all variables if none are specified
         select_clause = ",\n".join([f"{v} as {k}" for k, v in all_variables.items()])
     else:
-        # Select only the specified variables
         select_clause = ",\n".join([f"{all_variables[v]} as {v}" for v in variables if v in all_variables])
+
+    if not select_clause:
+        raise ValueError(f"None of the requested variables are valid. Available variables: {list(all_variables.keys())}")
 
     table_id = "bigquery-public-data.noaa_global_forecast_system.NOAA_GFS0P25"
     query = f"""

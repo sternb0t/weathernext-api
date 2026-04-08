@@ -2,6 +2,7 @@ fastapi
 uvicorn
 google-cloud-bigquery
 pandas
+numpy
 python-dotenv
 requests
 db-dtypes

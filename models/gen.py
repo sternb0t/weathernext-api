@@ -1,6 +1,8 @@
 import os
 from typing import List, Optional
 
+project_id = os.getenv("GCP_PROJECT_ID")
+
 def get_query(init_date: str, lat: float, lon: float, variables: Optional[List[str]] = None) -> str:
     """
     Returns the BigQuery SQL query for the WeatherNext Gen model.
@@ -21,13 +23,13 @@ def get_query(init_date: str, lat: float, lon: float, variables: Optional[List[s
     }
 
     if not variables:
-        # Select all variables if none are specified
         select_clause = ",\n".join([f"{v} as {k}" for k, v in all_variables.items()])
     else:
-        # Select only the specified variables
         select_clause = ",\n".join([f"{all_variables[v]} as {v}" for v in variables if v in all_variables])
 
-    project_id = os.getenv("GCP_PROJECT_ID")
+    if not select_clause:
+        raise ValueError(f"None of the requested variables are valid. Available variables: {list(all_variables.keys())}")
+
     table_id = f"{project_id}.weathernext_gen_forecasts.126478713_1_0"
     query = f"""
         SELECT
