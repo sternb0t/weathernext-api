@@ -50,6 +50,51 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ```
 
+## API Response Format
+
+A successful request returns a JSON object with the following structure:
+
+```json
+{
+  "init_date": "2023-04-18",
+  "latitude": 40.416775,
+  "longitude": -3.703790,
+  "model": "gfs",
+  "forecast": [
+    {
+      "forecast_time": "2023-04-18T00:00:00Z",
+      "temperature_2m_above_ground": 15.2,
+      "total_precipitation_surface": 0.0
+    },
+    {
+      "forecast_time": "2023-04-18T01:00:00Z",
+      "temperature_2m_above_ground": 14.8,
+      "total_precipitation_surface": 0.1
+    }
+  ]
+}
+```
+
+### Response Fields
+
+- **init_date**: The forecast initialization date (YYYY-MM-DD format)
+- **latitude**: The requested latitude coordinate
+- **longitude**: The requested longitude coordinate
+- **model**: The forecast model used ('graph', 'gen', or 'gfs')
+- **forecast**: Array of forecast records, each containing:
+  - **forecast_time**: ISO 8601 timestamp of the forecast time
+  - **[variable_name]**: Requested weather variables with their values (e.g., temperature_2m_above_ground, total_precipitation_surface)
+
+### Error Responses
+
+If a request fails, the API returns an error with an appropriate HTTP status code:
+
+- **400 Bad Request**: Invalid parameters (invalid model, date format, or coordinates outside valid ranges)
+- **404 Not Found**: No forecast data available for the specified date and location
+- **500 Internal Server Error**: Backend error while fetching data from BigQuery
+
+Error responses include a detail message explaining the issue.
+
 ## Example Notebook
 
 An example of how to use this API in a Jupyter Notebook can be found in the `api_example_notebook.ipynb` file. This notebook can be run in Google Colab or a local Jupyter environment.
